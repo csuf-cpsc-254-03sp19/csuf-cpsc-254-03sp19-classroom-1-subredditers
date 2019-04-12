@@ -6,3 +6,25 @@ this documentation will guide you on how to utilize Web Scrapy written
 in Python language in order to retrieve subreddit data from Reddit.com.
 For more information, be sure to check out the documentation below:
 https://docs.scrapy.org/en/latest/
+(NOTE: In order to keep this wiki guide simple and tidy as possible, I will try to summarize
+only the crucial key points in the Scrapy documentation.)
+
+Important Things to Remember:
+------------------------------------
+name="subreddits"
+Notice that name up there? That's what gives the Spider program an identity name, in which
+we will be using when entering the command "scrapy crawl <name>". In other words, whenever
+you give a Spider a name, be sure to remember it when you want to run the program. Did I
+forget to mention that you can't reuse the name once you assigned it to the Spider?
+
+start_requests()
+You can't go wrong about this function you declared. Without it, you won't be able to do any
+of the web scraping. start_requests() will assign the Spider a task to crawl through the
+given URL in order to return an iterable list of Requests. You can expect that further
+requests will be generated as the initial ones have been processed.
+
+parse()
+The parse() function will be returning all the downloaded responses acquired by requests.
+In other words, a complete list of the scraped data will be sorted into dictionaries and
+search for new URLs and create additional requests when needed.
+
