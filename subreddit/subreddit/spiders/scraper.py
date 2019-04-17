@@ -16,5 +16,5 @@ class SubredditSpider(scrapy.Spider):
 		page = response.url.split("/")[-2]
 		filename = 'subreddit-%s.html' % page
 		with open(filename, 'wb') as f:
-			f.write(response.body)
+			f.write(response)
 		self.log('Saved file %s' % filename)
