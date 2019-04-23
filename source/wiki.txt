@@ -18,3 +18,11 @@ The parse() function will be returning all the downloaded responses acquired by 
 response.css('lorem ipsum')
 If you are wondering what 'css' stands for, it is the cascading style sheets, in which they
 provide the layout of the web pages. So when the response.css() is called, the scraper will return a list Selector objects wrapping around the HTML elements and permit the extraction of the necessary data.
+
+scraped_info = {'insert name here' : item[n],}
+In order to store the scraped info the Scraper has collected, you may consider to define a dictionary consisting of the title and whatever data you want to put in. In other words, treat item[n] as an array of scraped data stored and be sure to include a comma in every line of title name and the item[n] array.
+
+Closing Note:
+By the time you finished reading this helpful guide on the Subreddit Scraper program powered by Python, at least you will be familiar on how to retrive internet data from the world wide web and place it into any file for later reference. That way, in case that you want to check the contents of the crawled web data for your own use, you can count on the documentation to print out whatever information you wish to read from.
+
+In other words, Happy Scrapping!
