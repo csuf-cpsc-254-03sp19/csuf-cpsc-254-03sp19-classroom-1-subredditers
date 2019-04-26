@@ -1,0 +1,14 @@
+﻿CPSC 254 Project Proposal
+By John, Sahil, and Jarod
+Team Member info.
+John, Sahil, and Jarod
+An overview on your project / project idea.
+For the group project, we chose to build a web crawler built with the open source library Scrapy.
+Goals of your software 
+Our app will be used to scrape a subreddit for keywords that are used primarily in that subreddit.
+Resources used to build your software i.e. any open source libraries used, tools used or any existing open source project. 
+We will use the scrapy open source library, and will possibly need an open source language tool to determine the uniqueness words to a subreddit
+Mention how you would use these resources in your project.
+The scrapy library will give us the resources we need in order to build a web scraper, without needing to know the in-depth details of how they work
+If developing from an existing project mention what new features you would add.
+We will be creating our own project, so there would not be new features to add, we will however be utilizing open source libraries
