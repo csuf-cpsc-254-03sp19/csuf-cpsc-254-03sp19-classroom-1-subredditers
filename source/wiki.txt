@@ -1,5 +1,5 @@
 Subreddit Scraper Instruction Manual
-
+------------------------------------
 Welcome to the Subreddit Scraper Tool! Whether this is the first time you tried web scraping before or you acquired some prior knowledge in it, this documentation will guide you on how to utilize Web Scrapy written in Python language in order to retrieve subreddit data from Reddit.com. For more information, be sure to check out the documentation below:
 https://docs.scrapy.org/en/latest/
 (NOTE: In order to keep this wiki guide simple and tidy as possible, I will try to summarize only the crucial key points in the Scrapy documentation.)
@@ -23,6 +23,7 @@ scraped_info = {'insert name here' : item[n],}
 In order to store the scraped info the Scraper has collected, you may consider to define a dictionary consisting of the title and whatever data you want to put in. In other words, treat item[n] as an array of scraped data stored and be sure to include a comma in every line of title name and the item[n] array.
 
 Closing Note:
+------------------------------------
 By the time you finished reading this helpful guide on the Subreddit Scraper program powered by Python, at least you will be familiar on how to retrive internet data from the world wide web and place it into any file for later reference. That way, in case that you want to check the contents of the crawled web data for your own use, you can count on the documentation to print out whatever information you wish to read from.
 
 In other words, Happy Scrapping!
