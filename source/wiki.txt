@@ -4,23 +4,22 @@ Welcome to the BeautifulSoup Web Scraper Tool! Whether this is the first time yo
 https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 (NOTE: In order to keep this wiki guide simple and tidy as possible, I will try to summarize only the crucial key points in the BeautifulSoup documentation.)
 
-Hot to Make Your Own Soup:
------------------------------------------
-
-Types of Objects in BeautifulSoup
------------------------------------------
-
-Moving through the Tree
------------------------------------------
-
-Searching the Tree
------------------------------------------
-
-Modifying the Tree
------------------------------------------
-
 Important Things to Remember
 -----------------------------------------
+from bs4 import BeautifulSoup
+You must declare this at the very top of the Python file if you want to do some web scrapping with BeautifulSoup. Otherwise, you won't be able to do anything along with bs4.
+
+BeautifulSoup(any parser library)
+Depending on what parser library you implemented when calling the BeautifulSoup function, it may take little or much time for the content to be extracted from an html. Not only that, some parsers that you use may require external dependency on another language, such as C or Python itself. If speed is your concern, I recommend using lxml for BeautifulSoup.
+
+attrs = {'class': 'thing', 'any-data': 'any content to read from}
+You can declare a list of attributes as a dictionary and assign any name of the content you wish to access.
+
+time.sleep(any number)
+Before you can use that, be sure to declare 'import time' at the very top of the Python file. This function will force the program to pause for awhile before continuing on.
+
+soup.find_all():
+If you want to search the tree for all the tags containing the specific input you want to look for, then you will be using those methods like above. Of course, you can specify on what kind of tag you wish to search for, as well as additional parameters such as attributes to further narrow your search terms.
 
 Closing Note:
 -----------------------------------------
