@@ -2,6 +2,8 @@ import requests                                                                #
 import csv                                                                     #It will then create a csv document that has each word, in order of how many times each was used
 import time
 from bs4 import BeautifulSoup
+from collections import Counter
+from string import punctuation
 
 
 url = "https://old.reddit.com/r/AskReddit/"
