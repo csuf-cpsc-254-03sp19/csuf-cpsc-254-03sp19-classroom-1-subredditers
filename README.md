@@ -1,4 +1,8 @@
 # Subreddit-Scraper
-A subreddit scraper powered by the open source library scrapy
+A subreddit scraper powered by the open source library Beautiful Soup
 follow this link for ideas and inspiration
-https://www.analyticsvidhya.com/blog/2017/07/web-scraping-in-python-using-scrapy/
+
+This project will...
+1: Search the first 20 posts of a given subreddit
+2: Lump all comments into one text file, and
+3: find the most "distinctive" words of the subreddit
