@@ -1,28 +1,28 @@
 import requests                                                                #this program will iterate through the comments of the first N posts on a subreddit
 import csv                                                                     #It will then create a csv document that has each word, in order of how many times each was used
 import time
+import re
+import string
 from bs4 import BeautifulSoup
-from collections import Counter
-from string import punctuation
 
+thisSub = "Music"
 
-url = "https://old.reddit.com/r/AskReddit/"
+url = "https://old.reddit.com/r/" + thisSub + "/"
 headers = {'User-Agent': 'Mozilla/5.0'}
 page = requests.get(url, headers=headers)
 soup = BeautifulSoup(page.text, 'html.parser')
-wordBuffer = ""
 wordsList = {}
 linksList = []                                                                 #will be appended with the links to comments of first 100 posts 
 
 
-attrs = {'class': 'thing', 'data-domain': 'self.AskReddit'}
+attrs = {'class': 'thing', 'data-context' : 'listing'}
 counter = 1
                                                                                #What follows is the code to populate a list of links to the comments of all 100 posts
-while counter <= 1:                                                           #How many posts will be counted
-    time.sleep(2)
-    for post in soup.find_all("div", attrs=attrs):
+while counter <= 19:                                                            #How many posts will be counted
+    time.sleep(1)
+    for post in soup.find_all("a", class_="bylink comments may-blank"):
 
-        forward_link = post.find("a", class_="title").attrs["href"]
+        forward_link = post.attrs["href"]
         print(forward_link)
         linksList.append(forward_link)
         
@@ -34,13 +34,26 @@ while counter <= 1:                                                           #H
     soup = BeautifulSoup(page.text, 'html.parser')
     
 attrs = {'class': 'thing', 'data-type': 'comment'}
+
 for link in linksList:
    
-    time.sleep(2)                                                              #go through all of the previously created links, scraping the text from every comment
-    page = requests.get(("https://old.reddit.com" + str(link)), headers=headers)
+    time.sleep(1)                                                              #go through all of the previously created links, scraping the text from every comment
+    page = requests.get(str(link), headers=headers)
     soup = BeautifulSoup(page.text, 'html.parser')
     for comment in soup.find_all("div", attrs = attrs):
-        wordbuffer += comment.find('div', class_='md').p
-        print(wordbuffer.get_text())
-    
-    
+        wordBuffer = comment.find('div', class_='md').get_text()
+        wordBuffer = str.split(wordBuffer)
+        for word in wordBuffer:
+            word = re.sub(r'\W+', '', word)
+            word = word.lower()
+            if word in wordsList:
+                wordsList[word] += 1
+            else:
+                wordsList[word] = 1
+                
+with open((thisSub + ".csv"), 'w') as csvfile:
+    subWriter = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    for key, value in sorted(wordsList.items(), key=lambda item: item[1], reverse = True):
+        subWriter.writerow([key, value])
+
+csvfile.close()
