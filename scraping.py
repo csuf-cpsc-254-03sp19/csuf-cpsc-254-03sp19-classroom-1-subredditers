@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests                                                                
 import csv
 import time
@@ -15,22 +16,27 @@ def SubtoCSV(thisSub):
     soup = BeautifulSoup(page.text, 'html.parser')
     wordsList = {} #this will hold all words mentioned, with a corresponding value meaning how many times it was used
     linksList = [] #this will hold all the links to the comments sections we need                                
+    wordBuffer = ""
 
-
-    attrs = {'class': 'thing', 'data-context' : 'listing'}
+    attrs = {'class': 'thing', 'data-promoted' : 'false'}
     counter = 1
-    
+    print("Generating data for /r/" + thisSub + "...")
     #The following while loop generates a list object full of links to all the comment sections of the first 20 posts                                                                          
     #20 is an arbitrary number that we decided to use just for time sake
     while counter <= 20:                                                       
         time.sleep(1) #a rest between searches so that we don't overload the subreddit
-        for post in soup.find_all("a", class_="bylink comments may-blank"):
-
-            forward_link = post.attrs["href"]
-            print(forward_link)
-            linksList.append(forward_link)
+        for post in soup.find_all("div", attrs = attrs):
+            #print (post.prettify())
+            try:
+                forward_link = post.find("a", class_="bylink comments may-blank").attrs["href"]
+                linksList.append(forward_link)
+                
+                wordBuffer += post.find('p', class_="title").text + ' '
+                counter += 1
+            except AttributeError:
+                pass
         
-            counter += 1
+
         #moves onto the next page of the subreddit  
         next_button = soup.find("span", class_="next-button")
         next_page_link = next_button.find("a").attrs['href']
@@ -38,7 +44,19 @@ def SubtoCSV(thisSub):
         soup = BeautifulSoup(page.text, 'html.parser')
     
     attrs = {'class': 'thing', 'data-type': 'comment'}
-
+    
+    #this code is copied from down below. unfortunately could not figure out how to make a viable function from this
+    for word in wordBuffer:
+        word = re.sub(r'\W+', '', word)
+        word = word.lower()
+                
+            #This bit of code here finds if the word is already in our word count
+        if str.isalnum(word):
+            if word in wordsList:     #if it is, we increase the count
+                wordsList[word] += 1
+            else:                     #if it isn't, we make a new entry in the wordsList Dictionary object
+                wordsList[word] = 1
+                
     #go through all of the previously created links
     for link in linksList:
         
@@ -58,16 +76,22 @@ def SubtoCSV(thisSub):
                 word = word.lower()
                 
                 #This bit of code here finds if the word is already in our word count
-                if word in wordsList:     #if it is, we increase the count
-                    wordsList[word] += 1
-                else:                     #if it isn't, we make a new entry in the wordsList Dictionary object
-                    wordsList[word] = 1
+                #also filters out one-letter words. some reason reddit has a high proportion of those and makes boring results
+                if (str.isalnum(word) and len(word) > 2):
+                    if word in wordsList:     #if it is, we increase the count
+                        wordsList[word] += 1
+                    else:                     #if it isn't, we make a new entry in the wordsList Dictionary object
+                        wordsList[word] = 1
                 
     #this while creates a CSV with the title of the subreddit, that contains the data in "wordsList"
     with open((thisSub + ".csv"), 'w') as csvfile:
-        subWriter = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        subWriter = csv.writer(csvfile, delimiter=',')
         for key, value in sorted(wordsList.items(), key=lambda item: item[1], reverse = True):
-            subWriter.writerow([key, value])
+           if value >= 5:
+               subWriter.writerow([key, value])
+
 
     csvfile.close()
 
+
+    
